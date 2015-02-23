@@ -135,6 +135,7 @@ namespace AltaMuestrasUbicaciones
                 MessageBox.Show(sageID);
                 //BOOLEANO PARA REALIZAR INSERT.
                 bool insertadoJose_articuloMarcaContador = true;
+                bool insertaUbicaciones = true;
                 string codigomarca = "366";
                 SqlConnection conectorSQL = new SqlConnection("user id=sa;password=Admin123admin;server=SRVSQL\\LOGICCLASS;database=lc_perfumesvalencia;connection timeout=30");
                 string consultaArticulosMarcaContador = "SELECT     CodigoArticulo FROM   jose_ArticulosMarcaContador WHERE     (Valor = '" + muestraID + "') AND (B_CodigoMarca = '" + codigomarca + "') AND (CodigoArticulo = '" + sageID + "')";
@@ -144,21 +145,44 @@ namespace AltaMuestrasUbicaciones
                 SqlCommand comando = new SqlCommand(consultaArticulosMarcaContador, conectorSQL);                
                 SqlDataReader datosArtMarcaCont = comando.ExecuteReader();
                
-                //Definimos array básico para tipo de muestra.                
-                if (!datosArtMarcaCont.HasRows) { MessageBox.Show("HACEMOS INSERT DEFINITIVO."); insertadoJose_articuloMarcaContador = false; }
+                //             
+                if (!datosArtMarcaCont.HasRows) { insertadoJose_articuloMarcaContador = false; }
                 
                 conectorSQL.Close();
-                
-                
-                //SqlCommand comando2 = new SqlCommand(consultaUbicaciones, conectorSQL);
-                //SqlDataReader datosUbicaciones = comando2.ExecuteReader();
-                //if (datosUbicaciones.HasRows)
-                //{
-                //    MessageBox.Show("ENTRA SEGUNDO IF");
-                //}
-                //else { MessageBox.Show("NO EXISTE PRODUCTO, HACEMOS INSERT."); }
+                conectorSQL.Open();
+                                
+                SqlCommand comando2 = new SqlCommand(consultaUbicaciones, conectorSQL);
+                SqlDataReader datosUbicaciones = comando2.ExecuteReader();
+                if (!datosUbicaciones.HasRows) { insertaUbicaciones = false; }
 
-                //conectorSQL.Close();
+                conectorSQL.Close();        
+        
+                //PROCEDEMOS A REALIZAR INSERT DEL MISMO. 
+                if (!insertadoJose_articuloMarcaContador && !insertaUbicaciones) {
+
+                    string insertaArtiMarcaContador = "insert into jose_ArticulosMarcaContador values ('"+sagelb.Text+"','366','"+ muestraID + "')";
+                    string insertaUbicacionesON= "insert into Ubicaciones values ('1','CEN','"+sagelb.Text+"','NOVA-"+muestraID+"')";
+                    MessageBox.Show(insertaArtiMarcaContador);
+                    MessageBox.Show(insertaUbicacionesON);
+
+                    //SqlCommand comando3 = new SqlCommand(insertaArtiMarcaContador, conectorSQL);
+                    //SqlCommand comando4 = new SqlCommand(insertaUbicacionesON, conectorSQL);
+                    //try
+                    //{
+                    //    conectorSQL.Open();
+                    //    int recordsAffected = comando3.ExecuteNonQuery();
+                    //    conectorSQL.Close();
+                    //    conectorSQL.Open();
+                    //    int recordsAffectedtwo = comando4.ExecuteNonQuery();
+                    //    conectorSQL.Close();
+                    //    if (recordsAffected > 0) { MessageBox.Show("INSERT OK"); } else if (recordsAffectedtwo > 0) { MessageBox.Show("INSERT2 OK"); }
+                    //}
+                    //catch (SqlException)
+                    //{
+                    //    MessageBox.Show("INSERT FALLIDO");
+                    //}                                      
+                }
+
                 btn_aplicar.Enabled = false;
             }
             catch
