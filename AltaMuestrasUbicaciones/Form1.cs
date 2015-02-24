@@ -165,22 +165,22 @@ namespace AltaMuestrasUbicaciones
                     MessageBox.Show(insertaArtiMarcaContador);
                     MessageBox.Show(insertaUbicacionesON);
 
-                    //SqlCommand comando3 = new SqlCommand(insertaArtiMarcaContador, conectorSQL);
-                    //SqlCommand comando4 = new SqlCommand(insertaUbicacionesON, conectorSQL);
-                    //try
-                    //{
-                    //    conectorSQL.Open();
-                    //    int recordsAffected = comando3.ExecuteNonQuery();
-                    //    conectorSQL.Close();
-                    //    conectorSQL.Open();
-                    //    int recordsAffectedtwo = comando4.ExecuteNonQuery();
-                    //    conectorSQL.Close();
-                    //    if (recordsAffected > 0) { MessageBox.Show("INSERT OK"); } else if (recordsAffectedtwo > 0) { MessageBox.Show("INSERT2 OK"); }
-                    //}
-                    //catch (SqlException)
-                    //{
-                    //    MessageBox.Show("INSERT FALLIDO");
-                    //}                                      
+                    SqlCommand comando3 = new SqlCommand(insertaArtiMarcaContador, conectorSQL);
+                    SqlCommand comando4 = new SqlCommand(insertaUbicacionesON, conectorSQL);
+                    try
+                    {
+                        conectorSQL.Open();
+                        int recordsAffected = comando3.ExecuteNonQuery();
+                        conectorSQL.Close();
+                        conectorSQL.Open();
+                        int recordsAffectedtwo = comando4.ExecuteNonQuery();
+                        conectorSQL.Close();
+                        if (recordsAffected > 0) { MessageBox.Show("INSERT OK"); } else if (recordsAffectedtwo > 0) { MessageBox.Show("INSERT2 OK"); }
+                    }
+                    catch (SqlException)
+                    {
+                        MessageBox.Show("INSERT FALLIDO");
+                    }                                      
                 }
 
                 btn_aplicar.Enabled = false;
